@@ -23,8 +23,7 @@ jQuery(document).ready(function($) {
         $('#header').removeClass('header-fixed');
     }
 
-    // Initiate the wowjs
-    new WOW().init();
+    // Reveal-on-scroll is disabled: it was painting content before init and causing flicker.
 
     // Initiate superfish on nav menu
     $('.nav-menu').superfish({
