@@ -68,7 +68,13 @@ jQuery(document).ready(function($) {
 
     // Smoth scroll on page hash links
     $('a[href*="#"]:not([href="#"])').on('click', function() {
-        if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+        // Treat "/" and "/index.html" as the same path so anchors work from the bare domain root.
+        var normalizePath = function(p) {
+            p = p.replace(/^\//, '');
+            if (p === '' || p === 'index.html') return 'index.html';
+            return p;
+        };
+        if (normalizePath(location.pathname) == normalizePath(this.pathname) && location.hostname == this.hostname) {
 
             var target = $(this.hash);
             if (target.length) {
