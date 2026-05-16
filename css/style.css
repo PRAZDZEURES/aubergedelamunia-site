@@ -962,6 +962,21 @@ body.mobile-nav-active #mobile-nav-toggle {
     overflow: hidden;
 }
 
+#contact .contact-form-fallback {
+    padding: 16px 20px;
+    border-radius: 8px;
+    background: #fff7e6;
+    color: #8a5a00;
+    border: 1px solid #ffe2a8;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+#contact .contact-form-fallback a {
+    color: #8a5a00;
+    text-decoration: underline;
+}
+
 #restauration .btn-get-started {
     font-family: "Poppins", sans-serif;
     text-transform: uppercase;

@@ -5,6 +5,41 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    checkFormSubmitHealth(function (isUp) {
+        if (!isUp) {
+            var fallback = document.querySelector(".contact-form-fallback");
+            form.hidden = true;
+            if (fallback) {
+                fallback.hidden = false;
+            }
+        }
+    });
+
+    function checkFormSubmitHealth(callback) {
+        var img = new Image();
+        var done = false;
+        var timeout = setTimeout(function () {
+            if (done) return;
+            done = true;
+            img.onload = img.onerror = null;
+            callback(false);
+        }, 5000);
+
+        img.onload = function () {
+            if (done) return;
+            done = true;
+            clearTimeout(timeout);
+            callback(true);
+        };
+        img.onerror = function () {
+            if (done) return;
+            done = true;
+            clearTimeout(timeout);
+            callback(false);
+        };
+        img.src = "https://formsubmit.co/favicon.ico?t=" + Date.now();
+    }
+
     var submitButton = form.querySelector('button[type="submit"]');
     var defaultButtonLabel = submitButton ? submitButton.textContent : "";
     var nameInput = form.querySelector('input[name="Nom"]');
