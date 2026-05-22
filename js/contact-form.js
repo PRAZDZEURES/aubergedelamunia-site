@@ -16,28 +16,32 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function checkFormSubmitHealth(callback) {
-        var img = new Image();
-        var done = false;
-        var timeout = setTimeout(function () {
-            if (done) return;
-            done = true;
-            img.onload = img.onerror = null;
-            callback(false);
-        }, 5000);
-
-        img.onload = function () {
-            if (done) return;
-            done = true;
-            clearTimeout(timeout);
+        if (typeof window.fetch !== "function") {
             callback(true);
-        };
-        img.onerror = function () {
+            return;
+        }
+
+        var done = false;
+        var timer = setTimeout(function () {
             if (done) return;
             done = true;
-            clearTimeout(timeout);
             callback(false);
-        };
-        img.src = "https://formsubmit.co/favicon.ico?t=" + Date.now();
+        }, 4000);
+
+        function settle(ok) {
+            if (done) return;
+            done = true;
+            clearTimeout(timer);
+            callback(ok);
+        }
+
+        fetch("https://formsubmit.co/", {
+            method: "HEAD",
+            mode: "no-cors",
+            cache: "no-store"
+        })
+            .then(function () { settle(true); })
+            .catch(function () { settle(false); });
     }
 
     var submitButton = form.querySelector('button[type="submit"]');
